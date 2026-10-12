@@ -644,6 +644,10 @@ emulator image, speed and animations; check for timing assumptions (sleeps, miss
 see whether it is consistent.
 
 **In the framework:** the CI artifact **appium-report** contains the report, failure videos and `appium.log`.
+A real case: the first CI run passed 39 of 40. `mockGpsLocation` failed with `NumberFormatException: empty
+String`, because on a fresh CI emulator the location fields stay empty until the first GPS fix, while the
+local emulator always had a position. The fix treats an empty field as "no position yet" so the wait keeps
+polling ([GeoLocationScreen](https://github.com/niranjankagri/appium-framework/blob/main/src/main/java/com/automation/appium/screens/GeoLocationScreen.java)).
 
 ### Q66. An element is found but the tap does nothing. Why?
 
