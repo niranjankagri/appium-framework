@@ -39,6 +39,30 @@ public class SideMenu extends BaseScreen {
 	}
 
 	/**
+	 * @return DrawingScreen the signature pad.
+	 */
+	public DrawingScreen drawing() {
+		tap(text("Drawing"));
+		return new DrawingScreen();
+	}
+
+	/**
+	 * @return GeoLocationScreen the GPS position screen.
+	 */
+	public GeoLocationScreen geoLocation() {
+		tap(text("Geo Location"));
+		return new GeoLocationScreen();
+	}
+
+	/**
+	 * @return WebViewScreen the in-app browser form.
+	 */
+	public WebViewScreen webView() {
+		tap(text("WebView"));
+		return new WebViewScreen();
+	}
+
+	/**
 	 * @param entry     the menu text, e.g. "Log In".
 	 * @return boolean  true when that entry is in the menu.
 	 */

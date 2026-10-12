@@ -39,6 +39,13 @@ public class LoginScreen extends BaseScreen {
 	}
 
 	/**
+	 * @return String what the user name field contains now.
+	 */
+	public String usernameText() {
+		return textOf(USERNAME);
+	}
+
+	/**
 	 * @return boolean true when the Login button is on screen (not hidden by the keyboard).
 	 */
 	public boolean isLoginButtonVisible() {
