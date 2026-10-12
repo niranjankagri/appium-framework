@@ -1,0 +1,14 @@
+# App under test: downloaded by scripts/get-app.sh or get-app.ps1
+apps/
+
+# Maven and TestNG output
+target/
+test-output/
+
+# Screenshots and reports written by test runs
+reports/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
