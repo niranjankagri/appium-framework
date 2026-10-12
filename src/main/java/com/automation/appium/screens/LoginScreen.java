@@ -29,6 +29,23 @@ public class LoginScreen extends BaseScreen {
 	}
 
 	/**
+	 * Taps into the user name field, which opens the on-screen keyboard.
+	 *
+	 * @return LoginScreen this screen.
+	 */
+	public LoginScreen focusUsername() {
+		tap(USERNAME);
+		return this;
+	}
+
+	/**
+	 * @return boolean true when the Login button is on screen (not hidden by the keyboard).
+	 */
+	public boolean isLoginButtonVisible() {
+		return isPresent(LOGIN);
+	}
+
+	/**
 	 * Fills both fields and taps Login. The caller decides which screen comes next,
 	 * because that depends on how the login was reached.
 	 *
