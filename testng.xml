@@ -1,6 +1,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <!-- Full suite. One emulator, so tests run on one thread (one Appium session). -->
 <suite name="Appium Framework" verbose="1">
+	<!-- Retries a test once, only when Android showed an "isn't responding" dialog -->
+	<listeners>
+		<listener class-name="com.automation.appium.base.RetryTransformer" />
+	</listeners>
 	<test name="Android">
 		<!-- Tests for open app defects fail by design; run them with -DsuiteXmlFile=known-bugs.xml -->
 		<groups>

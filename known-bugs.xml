@@ -2,6 +2,10 @@
 <!-- Tests for open defects in the app. They fail while the bug exists.
      Run: mvn test -DsuiteXmlFile=known-bugs.xml -->
 <suite name="Known app bugs" verbose="1">
+	<!-- Retries a test once, only when Android showed an "isn't responding" dialog -->
+	<listeners>
+		<listener class-name="com.automation.appium.base.RetryTransformer" />
+	</listeners>
 	<test name="Android known bugs">
 		<classes>
 			<class name="com.automation.appium.tests.KnownBugTest" />
