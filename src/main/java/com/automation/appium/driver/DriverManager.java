@@ -2,7 +2,10 @@ package com.automation.appium.driver;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.openqa.selenium.Capabilities;
 
 import com.automation.appium.config.Config;
 
@@ -19,6 +22,8 @@ public final class DriverManager {
 	private static final ThreadLocal<AndroidDriver> DRIVER = new ThreadLocal<>();
 	// Every open session, so all of them can be closed at the end of the run
 	private static final List<AndroidDriver> ALL = new CopyOnWriteArrayList<>();
+	// Device facts from the first session, for the report
+	private static final Map<String, String> DEVICE = new ConcurrentHashMap<>();
 
 	// Static helpers only
 	private DriverManager() {
@@ -33,8 +38,38 @@ public final class DriverManager {
 			driver = new AndroidDriver(Config.get().appiumUrl(), CapabilitiesFactory.android());
 			DRIVER.set(driver);
 			ALL.add(driver);
+			rememberDevice(driver.getCapabilities());
 		}
 		return driver;
+	}
+
+	/**
+	 * @return Map what the first session reported about the device (model, Android version, screen),
+	 *         for the report header; empty before the first session.
+	 */
+	public static Map<String, String> deviceInfo() {
+		return Map.copyOf(DEVICE);
+	}
+
+	// UiAutomator2 adds these to the session capabilities; keep the first session's values
+	private static void rememberDevice(Capabilities caps) {
+		if (!DEVICE.isEmpty()) {
+			return;
+		}
+		Object model = caps.getCapability("deviceModel");
+		Object maker = caps.getCapability("deviceManufacturer");
+		if (model != null) {
+			DEVICE.put("Device", (maker == null ? "" : maker + " ") + model);
+		}
+		Object version = caps.getCapability("platformVersion");
+		Object api = caps.getCapability("deviceApiLevel");
+		if (version != null) {
+			DEVICE.put("Android", version + (api == null ? "" : " (API " + api + ")"));
+		}
+		Object screen = caps.getCapability("deviceScreenSize");
+		if (screen != null) {
+			DEVICE.put("Screen", screen.toString());
+		}
 	}
 
 	/**

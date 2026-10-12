@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.automation.appium.config.Config;
 import com.automation.appium.driver.DriverManager;
+import com.automation.appium.report.Steps;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
@@ -67,6 +68,7 @@ public abstract class BaseScreen {
 	 * @param locator   where the element is.
 	 */
 	protected void tap(By locator) {
+		Steps.log("Tap \"" + Steps.name(locator) + "\"");
 		wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
 	}
 
@@ -77,6 +79,10 @@ public abstract class BaseScreen {
 	 * @param value     the text to type.
 	 */
 	protected void type(By locator, String value) {
+		String name = Steps.name(locator);
+		// Never write passwords into the report
+		String shown = name.toLowerCase().contains("password") ? "******" : value;
+		Steps.log("Type \"" + shown + "\" into \"" + name + "\"");
 		WebElement field = visible(locator);
 		field.clear();
 		field.sendKeys(value);
@@ -123,6 +129,7 @@ public abstract class BaseScreen {
 			if (!found.isEmpty()) {
 				return found.get(0);
 			}
+			Steps.log("Swipe up to find \"" + Steps.name(locator) + "\"");
 			swipeUp();
 		}
 		throw new NoSuchElementException("Not found after " + MAX_SWIPES + " swipes: " + locator);

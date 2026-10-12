@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriverException;
 
 import com.automation.appium.config.Config;
 import com.automation.appium.driver.DriverManager;
+import com.automation.appium.report.Steps;
 
 import io.appium.java_client.android.AndroidDriver;
 
@@ -26,6 +27,7 @@ public final class Device {
 	 * Presses the Android back button.
 	 */
 	public void back() {
+		Steps.log("Press the Android back button");
 		driver.navigate().back();
 	}
 
@@ -35,6 +37,7 @@ public final class Device {
 	 * @param time      how long the app stays in the background.
 	 */
 	public void sendToBackground(Duration time) {
+		Steps.log("Send the app to the background for \"" + time.toSeconds() + " s\"");
 		driver.runAppInBackground(time);
 	}
 
@@ -42,6 +45,7 @@ public final class Device {
 	 * Closes the app completely and starts it again (a cold start), keeping its data.
 	 */
 	public void restartApp() {
+		Steps.log("Close the app and start it again");
 		driver.terminateApp(appPackage);
 		driver.activateApp(appPackage);
 	}
@@ -52,6 +56,7 @@ public final class Device {
 	 * @return boolean false when the device refused, e.g. because the app is locked to portrait.
 	 */
 	public boolean tryLandscape() {
+		Steps.log("Rotate the device to \"landscape\"");
 		try {
 			driver.rotate(ScreenOrientation.LANDSCAPE);
 			return true;
@@ -88,6 +93,7 @@ public final class Device {
 	 * Closes the on-screen keyboard, e.g. when it covers a button.
 	 */
 	public void hideKeyboard() {
+		Steps.log("Hide the keyboard");
 		driver.hideKeyboard();
 	}
 
