@@ -2,6 +2,12 @@
 <!-- Full suite. One emulator, so tests run on one thread (one Appium session). -->
 <suite name="Appium Framework" verbose="1">
 	<test name="Android">
+		<!-- Tests for open app defects fail by design; run them with -DsuiteXmlFile=known-bugs.xml -->
+		<groups>
+			<run>
+				<exclude name="known-bug" />
+			</run>
+		</groups>
 		<packages>
 			<package name="com.automation.appium.tests.*" />
 		</packages>

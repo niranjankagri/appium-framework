@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!-- Tests for open defects in the app. They fail while the bug exists.
+     Run: mvn test -DsuiteXmlFile=known-bugs.xml -->
+<suite name="Known app bugs" verbose="1">
+	<test name="Android known bugs">
+		<classes>
+			<class name="com.automation.appium.tests.KnownBugTest" />
+		</classes>
+	</test>
+</suite>
