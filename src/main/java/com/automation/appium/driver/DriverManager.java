@@ -1,6 +1,7 @@
 package com.automation.appium.driver;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.automation.appium.config.Config;
@@ -67,7 +68,7 @@ public final class DriverManager {
 		String appPackage = Config.get().value("appPackage");
 		driver.terminateApp(appPackage);
 		// Same as "Clear storage" in Android settings: cart and login are gone
-		driver.executeScript("mobile: clearApp", java.util.Map.of("appId", appPackage));
+		driver.executeScript("mobile: clearApp", Map.of("appId", appPackage));
 		driver.activateApp(appPackage);
 	}
 }
