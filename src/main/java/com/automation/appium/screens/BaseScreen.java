@@ -25,7 +25,7 @@ public abstract class BaseScreen {
 
 	// Every resource id in the app starts with the package name
 	private static final String ID_PREFIX = "com.saucelabs.mydemoapp.android:id/";
-	// Enough to reach the end of the longest list in the app (the catalog)
+	// Per direction; enough to cross the longest list in the app (the catalog)
 	private static final int MAX_SWIPES = 10;
 
 	// Session of the current test thread
@@ -115,35 +115,53 @@ public abstract class BaseScreen {
 	}
 
 	/**
-	 * Swipes up until the element is on screen. Android only renders what is
+	 * Swipes until the element is on screen. Android only renders what is
 	 * visible, so elements further down do not exist before this. UiScrollable
 	 * is not used because this app's list does not report itself as scrollable.
+	 * <p>
+	 * Searches down first, then back up: a list keeps its scroll position when
+	 * the user comes back to it, so the element may be above. The end of the list
+	 * is reached when a swipe no longer changes the screen.
 	 *
 	 * @param locator   where the element is once it has been scrolled into view.
 	 * @return WebElement the element.
-	 * @throws NoSuchElementException if it is still missing after MAX_SWIPES swipes.
+	 * @throws NoSuchElementException if it is in neither direction.
 	 */
 	protected WebElement scrollTo(By locator) {
-		for (int swipe = 0; swipe <= MAX_SWIPES; swipe++) {
-			List<WebElement> found = driver.findElements(locator);
-			if (!found.isEmpty()) {
-				return found.get(0);
+		for (String direction : List.of("up", "down")) {
+			String before = null;
+			for (int swipe = 0; swipe <= MAX_SWIPES; swipe++) {
+				List<WebElement> found = driver.findElements(locator);
+				if (!found.isEmpty()) {
+					return found.get(0);
+				}
+				String screen = driver.getPageSource();
+				if (screen.equals(before)) {
+					// Nothing moved: this end of the list is reached
+					break;
+				}
+				before = screen;
+				Steps.log("Swipe " + direction + " to find \"" + Steps.name(locator) + "\"");
+				swipe(direction);
 			}
-			Steps.log("Swipe up to find \"" + Steps.name(locator) + "\"");
-			swipeUp();
 		}
-		throw new NoSuchElementException("Not found after " + MAX_SWIPES + " swipes: " + locator);
+		throw new NoSuchElementException("Not found in either direction: " + locator);
 	}
 
 	/**
-	 * One swipe up over the middle of the screen (the content moves up, showing what is below).
-	 * Half a screen per swipe, so nothing is skipped between two checks.
+	 * One swipe over the middle of the screen. "up" moves the content up and shows
+	 * what is below. Half a screen at a moderate speed, so the list does not fling
+	 * past an element between two checks.
+	 *
+	 * @param direction "up" or "down".
 	 */
-	protected void swipeUp() {
+	protected void swipe(String direction) {
 		Dimension size = driver.manage().window().getSize();
 		driver.executeScript("mobile: swipeGesture", Map.of(
 				"left", size.width / 10, "top", size.height / 4,
 				"width", size.width * 8 / 10, "height", size.height / 2,
-				"direction", "up", "percent", 0.75));
+				"direction", direction, "percent", 0.75,
+				// Pixels per second; the default is fast enough to fling the list
+				"speed", 1500));
 	}
 }
