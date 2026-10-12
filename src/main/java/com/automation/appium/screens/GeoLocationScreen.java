@@ -30,17 +30,24 @@ public class GeoLocationScreen extends BaseScreen {
 	}
 
 	/**
-	 * @return double the latitude shown on screen.
+	 * @return double the latitude shown on screen, NaN while there is none yet.
 	 */
 	public double latitude() {
-		return Double.parseDouble(textOf(LATITUDE));
+		return coordinate(LATITUDE);
 	}
 
 	/**
-	 * @return double the longitude shown on screen.
+	 * @return double the longitude shown on screen, NaN while there is none yet.
 	 */
 	public double longitude() {
-		return Double.parseDouble(textOf(LONGITUDE));
+		return coordinate(LONGITUDE);
+	}
+
+	// The fields stay empty until the device has a first position (seen on a fresh CI emulator);
+	// NaN then fails every comparison, so waits keep polling instead of throwing
+	private double coordinate(By field) {
+		String text = textOf(field).trim();
+		return text.isEmpty() ? Double.NaN : Double.parseDouble(text);
 	}
 
 	/**
