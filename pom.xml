@@ -25,6 +25,13 @@
 			<artifactId>java-client</artifactId>
 			<version>11.0.0</version>
 		</dependency>
+		<!-- Selenium waits (WebDriverWait, ExpectedConditions); the Appium client
+		     no longer brings this module, so it is added here -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-support</artifactId>
+			<version>4.51.0</version>
+		</dependency>
 		<!-- Test runner: groups, parallel runs, listeners, data providers -->
 		<dependency>
 			<groupId>org.testng</groupId>
