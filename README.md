@@ -5,9 +5,17 @@ Android mobile test automation with **Appium 3**, **Java 17** and **TestNG**, wr
 
 Work in progress: the framework is built step by step, one commit per part.
 
-## Setup
+## Quick start
 
-1. Android SDK with an emulator (`Pixel_API_35`, Android 15), `ANDROID_HOME` set
-2. `npm install -g appium` and `appium driver install uiautomator2`
-3. Get the app: `scripts/get-app.sh` (or `scripts\get-app.ps1` on Windows)
-4. Start the emulator and `appium`, then `mvn test`
+Full guide: **[docs/setup.md](docs/setup.md)** (installation, starting the device, Appium Inspector,
+troubleshooting). With the Android SDK, the `Pixel_API_35` emulator and Appium installed:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\get-app.ps1   # or: scripts/get-app.sh
+emulator -avd Pixel_API_35 -no-snapshot-save                   # terminal 1
+appium --use-plugins=inspector --allow-cors                    # terminal 2
+mvn test                                                       # terminal 3
+```
+
+Inspect the app's screens at [http://localhost:4723/inspector](http://localhost:4723/inspector)
+(capabilities in [docs/setup.md](docs/setup.md#32-open-the-inspector)).
