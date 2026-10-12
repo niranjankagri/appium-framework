@@ -75,7 +75,12 @@ public class CatalogScreen extends BaseScreen {
 	 * @return ProductScreen the product's detail screen.
 	 */
 	public ProductScreen openProduct(String name) {
-		scrollToText(name).click();
+		// Only the image opens the product, not the name: find the image in the same card
+		By image = AppiumBy.androidUIAutomator("new UiSelector().text(\"" + name + "\")"
+				+ ".fromParent(new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/productIV\"))");
+		scrollTo(image);
+		// Tap through the wait: the list may still be gliding after the swipe
+		tap(image);
 		return new ProductScreen();
 	}
 

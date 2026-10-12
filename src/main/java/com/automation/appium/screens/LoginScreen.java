@@ -22,6 +22,13 @@ public class LoginScreen extends BaseScreen {
 	}
 
 	/**
+	 * @return Header the top bar.
+	 */
+	public Header header() {
+		return new Header();
+	}
+
+	/**
 	 * Fills both fields and taps Login. The caller decides which screen comes next,
 	 * because that depends on how the login was reached.
 	 *

@@ -1,8 +1,11 @@
 package com.automation.appium.screens;
 
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,6 +24,8 @@ public abstract class BaseScreen {
 
 	// Every resource id in the app starts with the package name
 	private static final String ID_PREFIX = "com.saucelabs.mydemoapp.android:id/";
+	// Enough to reach the end of the longest list in the app (the catalog)
+	private static final int MAX_SWIPES = 10;
 
 	// Session of the current test thread
 	protected final AndroidDriver driver;
@@ -104,15 +109,34 @@ public abstract class BaseScreen {
 	}
 
 	/**
-	 * Scrolls the screen's scrollable view until the text is visible. Android only
-	 * renders what is on screen, so elements further down are not found before this.
+	 * Swipes up until the element is on screen. Android only renders what is
+	 * visible, so elements further down do not exist before this. UiScrollable
+	 * is not used because this app's list does not report itself as scrollable.
 	 *
-	 * @param text      the exact text to bring into view.
-	 * @return WebElement the element with that text.
+	 * @param locator   where the element is once it has been scrolled into view.
+	 * @return WebElement the element.
+	 * @throws NoSuchElementException if it is still missing after MAX_SWIPES swipes.
 	 */
-	protected WebElement scrollToText(String text) {
-		return driver.findElement(AppiumBy.androidUIAutomator(
-				"new UiScrollable(new UiSelector().scrollable(true))"
-						+ ".scrollIntoView(new UiSelector().text(\"" + text + "\"))"));
+	protected WebElement scrollTo(By locator) {
+		for (int swipe = 0; swipe <= MAX_SWIPES; swipe++) {
+			List<WebElement> found = driver.findElements(locator);
+			if (!found.isEmpty()) {
+				return found.get(0);
+			}
+			swipeUp();
+		}
+		throw new NoSuchElementException("Not found after " + MAX_SWIPES + " swipes: " + locator);
+	}
+
+	/**
+	 * One swipe up over the middle of the screen (the content moves up, showing what is below).
+	 * Half a screen per swipe, so nothing is skipped between two checks.
+	 */
+	protected void swipeUp() {
+		Dimension size = driver.manage().window().getSize();
+		driver.executeScript("mobile: swipeGesture", Map.of(
+				"left", size.width / 10, "top", size.height / 4,
+				"width", size.width * 8 / 10, "height", size.height / 2,
+				"direction", "up", "percent", 0.75));
 	}
 }

@@ -24,7 +24,7 @@ public class AddressScreen extends BaseScreen {
 	private static final By TO_PAYMENT = id("paymentBtn");
 	// Each required field has its own message view: fullNameErrorTV, cityErrorTV, ...
 	private static final By ERRORS = AppiumBy
-			.androidUIAutomator("new UiSelector().resourceIdMatches(\".*:id/\\\\w+ErrorTV\")");
+			.androidUIAutomator("new UiSelector().resourceIdMatches(\".*ErrorTV\")");
 
 	/**
 	 * Waits for the first field, so the form is shown.
