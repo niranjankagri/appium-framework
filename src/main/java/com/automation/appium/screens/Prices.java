@@ -3,8 +3,8 @@ package com.automation.appium.screens;
 import java.math.BigDecimal;
 
 /**
- * Turns the app's price texts ("$ 29.99") into numbers. BigDecimal, not double,
- * so sums like 29.99 + 5.99 compare exactly.
+ * Turns the app's price texts ("$ 29.99") into numbers. BigDecimal, not double:
+ * as doubles, 49.99 + 5.99 is 55.980000000000004, not 55.98.
  */
 public final class Prices {
 
