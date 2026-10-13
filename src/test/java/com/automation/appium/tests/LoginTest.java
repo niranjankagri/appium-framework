@@ -18,6 +18,7 @@ public class LoginTest extends BaseTest {
 
 	@Test(groups = { "smoke", "login" }, description = "A valid user logs in and the menu offers Log Out")
 	public void validUserLogsIn() {
+		// Menu > Log In; a successful login returns to the catalog
 		CatalogScreen catalog = new CatalogScreen().header().openMenu().logIn()
 				.loginToCatalog(TestData.USER, TestData.PASSWORD);
 
@@ -28,15 +29,18 @@ public class LoginTest extends BaseTest {
 
 	@Test(groups = "login", description = "A locked-out user is refused with a clear message")
 	public void lockedUserIsRefused() {
+		// submit() stays on the login form, so the error can be read
 		LoginScreen login = new CatalogScreen().header().openMenu().logIn()
 				.submit(TestData.LOCKED_USER, TestData.PASSWORD);
 
+		// The app shows this message under the password field, not in a dialog
 		assertEquals(login.passwordError(), "Sorry this user has been locked out.");
 	}
 
 	@Test(groups = "login", description = "Login without a user name asks for one")
 	public void usernameIsRequired() {
 		LoginScreen login = new CatalogScreen().header().openMenu().logIn()
+				// Empty user name, valid password
 				.submit("", TestData.PASSWORD);
 
 		assertEquals(login.usernameError(), "Username is required");
@@ -45,6 +49,7 @@ public class LoginTest extends BaseTest {
 	@Test(groups = "login", description = "Login without a password asks for one")
 	public void passwordIsRequired() {
 		LoginScreen login = new CatalogScreen().header().openMenu().logIn()
+				// Valid user name, empty password
 				.submit(TestData.USER, "");
 
 		assertEquals(login.passwordError(), "Enter Password");
@@ -52,12 +57,14 @@ public class LoginTest extends BaseTest {
 
 	@Test(groups = "login", description = "Logging out returns to the login form and the menu offers Log In")
 	public void userLogsOut() {
+		// Log in first: after the app reset nobody is logged in
 		CatalogScreen catalog = new CatalogScreen().header().openMenu().logIn()
 				.loginToCatalog(TestData.USER, TestData.PASSWORD);
 
 		// Log out confirms a dialog and lands on the login form
 		LoginScreen login = catalog.header().openMenu().logOut();
 
+		// Logged out: the menu offers Log In again
 		assertTrue(login.header().openMenu().hasEntry("Log In"), "Log In entry after logout");
 	}
 }

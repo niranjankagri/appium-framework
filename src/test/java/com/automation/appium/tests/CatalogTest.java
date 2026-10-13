@@ -22,8 +22,10 @@ public class CatalogTest extends BaseTest {
 
 	@Test(groups = "catalog", description = "Sorting by name A-Z orders the products alphabetically")
 	public void sortByNameAscending() {
+		// Pick the option in the sort dialog, then read the names on screen
 		List<String> names = new CatalogScreen().sortBy(Sort.NAME_ASC).visibleProductNames();
 
+		// Sorting the list that was read must not change it
 		assertEquals(names, names.stream().sorted().toList(), "names A-Z");
 	}
 
@@ -31,11 +33,13 @@ public class CatalogTest extends BaseTest {
 	public void sortByNameDescending() {
 		List<String> names = new CatalogScreen().sortBy(Sort.NAME_DESC).visibleProductNames();
 
+		// Same check in reverse order
 		assertEquals(names, names.stream().sorted(Comparator.reverseOrder()).toList(), "names Z-A");
 	}
 
 	@Test(groups = "catalog", description = "Sorting by price low-high puts the cheapest first")
 	public void sortByPriceAscending() {
+		// Prices are compared as numbers: as text, "$9.99" would sort after "$15.99"
 		List<BigDecimal> prices = new CatalogScreen().sortBy(Sort.PRICE_ASC).visiblePrices();
 
 		assertEquals(prices, prices.stream().sorted().toList(), "prices low-high");
@@ -53,6 +57,7 @@ public class CatalogTest extends BaseTest {
 		// The yellow backpack is not on the first screen: the page object has to scroll to it
 		ProductScreen product = new CatalogScreen().openProduct(TestData.YELLOW_BACKPACK);
 
+		// The product screen belongs to the product that was tapped
 		assertEquals(product.name(), TestData.YELLOW_BACKPACK);
 		assertEquals(product.price(), new BigDecimal("29.99"));
 	}

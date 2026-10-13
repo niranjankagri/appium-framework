@@ -24,6 +24,7 @@ public class CheckoutTest extends BaseTest {
 
 	@Test(groups = { "smoke", "checkout" }, description = "A guest logs in during checkout and completes the order")
 	public void guestCompletesCheckout() {
+		// One product in the cart; keep the cart total to check the order total later
 		CartScreen cart = new CatalogScreen().openProduct(TestData.BACKPACK).addToCart()
 				.header().openCart();
 		BigDecimal cartTotal = cart.total();
@@ -36,12 +37,14 @@ public class CheckoutTest extends BaseTest {
 				.fill(TestData.CARD)
 				.reviewOrder();
 
+		// The review screen repeats what was entered: item, ship-to name, item count
 		assertEquals(review.itemNames(), List.of(TestData.BACKPACK));
 		assertEquals(review.shipToName(), TestData.ADDRESS.fullName());
 		assertEquals(review.itemCount(), 1, "items");
 		// The review total is the cart total plus the flat delivery fee
 		assertEquals(review.total(), cartTotal.add(TestData.DELIVERY), "order total");
 
+		// Place the order and check the confirmation screen
 		CompleteScreen complete = review.placeOrder();
 		assertEquals(complete.title(), "Checkout Complete");
 		assertEquals(complete.thankYou(), "Thank you for your order");
@@ -52,11 +55,13 @@ public class CheckoutTest extends BaseTest {
 
 	@Test(groups = "checkout", description = "The address form names every missing required field")
 	public void addressRequiresAllMandatoryFields() {
+		// Go through the checkout up to the empty address form
 		AddressScreen address = new CatalogScreen().openProduct(TestData.BACKPACK).addToCart()
 				.header().openCart()
 				.checkoutAsGuest()
 				.loginToCheckout(TestData.USER, TestData.PASSWORD);
 
+		// Submit the empty form: the app stays on it and shows the field errors
 		List<String> errors = address.submitExpectingErrors().errors();
 
 		// One message per required field, in form order
@@ -77,6 +82,7 @@ public class CheckoutTest extends BaseTest {
 		assertEquals(address.line2(), "");
 		assertEquals(address.state(), "");
 
+		// Same path as a real order, up to the address form
 		new CatalogScreen().openProduct(TestData.BACKPACK).addToCart()
 				.header().openCart()
 				.checkoutAsGuest()
