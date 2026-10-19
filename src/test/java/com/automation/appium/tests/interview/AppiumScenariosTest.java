@@ -229,6 +229,7 @@ public class AppiumScenariosTest extends BaseTest {
 		assertEquals(driver().getContext(), "NATIVE_APP", "still in the native context");
 	}
 
+	/** The Android permissions the app currently holds, read with Appium's mobile: getPermissions command. */
 	@SuppressWarnings("unchecked")
 	private List<String> grantedPermissions(String appPackage) {
 		return (List<String>) driver().executeScript("mobile: getPermissions",

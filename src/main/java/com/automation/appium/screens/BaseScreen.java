@@ -33,6 +33,7 @@ public abstract class BaseScreen {
 	// Waits up to explicitWait seconds (config) for a condition
 	protected final WebDriverWait wait;
 
+	/** Every screen uses the session of the current test thread and the configured explicit wait. */
 	protected BaseScreen() {
 		this.driver = DriverManager.get();
 		this.wait = new WebDriverWait(driver, Config.get().explicitWait());

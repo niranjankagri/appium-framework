@@ -26,6 +26,7 @@ public class CatalogScreen extends BaseScreen {
 
 		private final String label;
 
+		/** label is the accessibility label of the option in the sort dialog. */
 		Sort(String label) {
 			this.label = label;
 		}
