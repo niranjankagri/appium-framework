@@ -31,6 +31,7 @@ Runs on a local emulator or a real phone, and on an Android emulator in GitHub A
 - [Interview questions](#interview-questions)
 - [CI](#ci)
 - [Adding a test](#adding-a-test)
+- [License](#license)
 
 ## Tech stack
 
@@ -189,6 +190,10 @@ The `tests/interview` package turns common interview tasks into runnable tests (
 
 A manual run (*Actions > Tests > Run workflow*) can choose `known-bugs.xml` instead.
 
+The JUnit XML is kept as the separate artifact **junit-android**, which
+[Automation Coverage & Quality Intelligence](https://github.com/niranjankagri/automation-coverage-quality-intelligence) collects.
+`main` is protected by a ruleset: every change goes through a pull request, and this CI job must pass before it is merged.
+
 ## Adding a test
 
 1. Find the element in Appium Inspector ([setup.md, section 3](docs/setup.md#3-appium-server-and-appium-inspector)).
@@ -206,3 +211,7 @@ public void addOneProduct() {
 ```
 
 The app is reset before the test, so it starts on the catalog with an empty cart and nobody logged in.
+
+## License
+
+[MIT](LICENSE)
