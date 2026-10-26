@@ -6,6 +6,10 @@ name: Tests
 on:
   push:
   pull_request:
+  schedule:
+    # Weekly, without a code change: a broken dependency or a change outside the repository
+    # shows up within a week (night in India, before the daily Quality Intelligence collection)
+    - cron: '15 23 * * 3'   # Wednesday 23:15 UTC
   # Manual run from the Actions tab; can also run the known-bug suite
   workflow_dispatch:
     inputs:
