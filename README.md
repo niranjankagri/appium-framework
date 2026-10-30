@@ -105,6 +105,10 @@ Test  ──uses──▶  Screen objects  ──▶  BaseScreen (wait, tap, typ
 
 Groups: `smoke`, `login`, `catalog`, `cart`, `checkout`, `mobile`, `interview`, `known-bug`.
 
+### Test case IDs
+
+Every app test starts with its case ID (`tc116_guestCompletesCheckout`, description `[TC-116] ...`). The 32 cases (TC-101 to TC-132, including the three known bugs TC-124 to TC-126) are written out for a manual run on a phone or emulator in [docs/manual-test-cases.md](docs/manual-test-cases.md). Interview tests that only demonstrate an Appium technique have no ID.
+
 ## Known app bugs
 
 Found while writing the tests, on My Demo App 2.3.0 (Android 15 emulator):

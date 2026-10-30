@@ -14,8 +14,8 @@ import com.automation.appium.screens.CatalogScreen;
  */
 public class SmokeTest extends BaseTest {
 
-	@Test(groups = "smoke", description = "The app opens on the product catalog")
-	public void appOpensOnCatalog() {
+	@Test(groups = "smoke", description = "[TC-101] The app opens on the product catalog")
+	public void tc101_appOpensOnCatalog() {
 		// The constructor waits until the splash screen has handed over
 		CatalogScreen catalog = new CatalogScreen();
 

@@ -20,8 +20,8 @@ import com.automation.appium.screens.ProductScreen;
  */
 public class CatalogTest extends BaseTest {
 
-	@Test(groups = "catalog", description = "Sorting by name A-Z orders the products alphabetically")
-	public void sortByNameAscending() {
+	@Test(groups = "catalog", description = "[TC-107] Sorting by name A-Z orders the products alphabetically")
+	public void tc107_sortByNameAscending() {
 		// Pick the option in the sort dialog, then read the names on screen
 		List<String> names = new CatalogScreen().sortBy(Sort.NAME_ASC).visibleProductNames();
 
@@ -29,31 +29,31 @@ public class CatalogTest extends BaseTest {
 		assertEquals(names, names.stream().sorted().toList(), "names A-Z");
 	}
 
-	@Test(groups = "catalog", description = "Sorting by name Z-A orders the products in reverse")
-	public void sortByNameDescending() {
+	@Test(groups = "catalog", description = "[TC-108] Sorting by name Z-A orders the products in reverse")
+	public void tc108_sortByNameDescending() {
 		List<String> names = new CatalogScreen().sortBy(Sort.NAME_DESC).visibleProductNames();
 
 		// Same check in reverse order
 		assertEquals(names, names.stream().sorted(Comparator.reverseOrder()).toList(), "names Z-A");
 	}
 
-	@Test(groups = "catalog", description = "Sorting by price low-high puts the cheapest first")
-	public void sortByPriceAscending() {
+	@Test(groups = "catalog", description = "[TC-109] Sorting by price low-high puts the cheapest first")
+	public void tc109_sortByPriceAscending() {
 		// Prices are compared as numbers: as text, "$9.99" would sort after "$15.99"
 		List<BigDecimal> prices = new CatalogScreen().sortBy(Sort.PRICE_ASC).visiblePrices();
 
 		assertEquals(prices, prices.stream().sorted().toList(), "prices low-high");
 	}
 
-	@Test(groups = "catalog", description = "Sorting by price high-low puts the most expensive first")
-	public void sortByPriceDescending() {
+	@Test(groups = "catalog", description = "[TC-110] Sorting by price high-low puts the most expensive first")
+	public void tc110_sortByPriceDescending() {
 		List<BigDecimal> prices = new CatalogScreen().sortBy(Sort.PRICE_DESC).visiblePrices();
 
 		assertEquals(prices, prices.stream().sorted(Comparator.reverseOrder()).toList(), "prices high-low");
 	}
 
-	@Test(groups = { "smoke", "catalog" }, description = "A product further down the list opens with its own name and price")
-	public void openProductBelowTheFold() {
+	@Test(groups = { "smoke", "catalog" }, description = "[TC-111] A product further down the list opens with its own name and price")
+	public void tc111_openProductBelowTheFold() {
 		// The yellow backpack is not on the first screen: the page object has to scroll to it
 		ProductScreen product = new CatalogScreen().openProduct(TestData.YELLOW_BACKPACK);
 
