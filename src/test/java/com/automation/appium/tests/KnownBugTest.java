@@ -26,8 +26,8 @@ public class KnownBugTest extends BaseTest {
 	 * {@code ArrayIndexOutOfBoundsException: length=6; index=6} in
 	 * {@code ProductCatalogFragment.java:156}. Products 1-6 open normally.
 	 */
-	@Test(groups = "known-bug", description = "BUG: opening the 7th product (Bike Light) crashes the app")
-	public void seventhProductOpens() {
+	@Test(groups = "known-bug", description = "[TC-124] BUG: opening the 7th product (Bike Light) crashes the app")
+	public void tc124_seventhProductOpens() {
 		ProductScreen product = new CatalogScreen().openProduct(TestData.BIKE_LIGHT);
 
 		assertEquals(product.name(), TestData.BIKE_LIGHT);
@@ -38,8 +38,8 @@ public class KnownBugTest extends BaseTest {
 	 * button lowers the quantity from 1 to 0, so "Add to cart" can be tapped
 	 * with nothing to add. The quantity should stop at 1.
 	 */
-	@Test(groups = "known-bug", description = "BUG: the product quantity can be lowered to 0")
-	public void quantityStopsAtOne() {
+	@Test(groups = "known-bug", description = "[TC-125] BUG: the product quantity can be lowered to 0")
+	public void tc125_quantityStopsAtOne() {
 		ProductScreen product = new CatalogScreen().openProduct(TestData.BACKPACK).decreaseQuantity();
 
 		assertEquals(product.quantity(), 1, "quantity after tapping minus at 1");
@@ -50,8 +50,8 @@ public class KnownBugTest extends BaseTest {
 	 * without a country shows "Please provide your" with the last word
 	 * missing; the other required fields have complete messages.
 	 */
-	@Test(groups = "known-bug", description = "BUG: the missing-country message is cut off")
-	public void countryMessageIsComplete() {
+	@Test(groups = "known-bug", description = "[TC-126] BUG: the missing-country message is cut off")
+	public void tc126_countryMessageIsComplete() {
 		AddressScreen address = new CatalogScreen().openProduct(TestData.BACKPACK).addToCart()
 				.header().openCart()
 				.checkoutAsGuest()

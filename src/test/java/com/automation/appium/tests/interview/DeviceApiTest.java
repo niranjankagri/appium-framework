@@ -75,8 +75,8 @@ public class DeviceApiTest extends BaseTest {
 	 * A mocked GPS position: set Berlin, the app's location screen shows it.
 	 * GPS values come back as floats, so the check allows 0.001 degrees.
 	 */
-	@Test(description = "A mocked GPS position appears in the app")
-	public void mockGpsLocation() {
+	@Test(description = "[TC-131] A mocked GPS position appears in the app")
+	public void tc131_mockGpsLocation() {
 		driver().executeScript("mobile: setGeolocation", Map.of("latitude", 52.52, "longitude", 13.405, "altitude", 34));
 
 		GeoLocationScreen geo = new CatalogScreen().header().openMenu().geoLocation().startObserving();
@@ -134,8 +134,8 @@ public class DeviceApiTest extends BaseTest {
 	 * Opening Android's notification shade (system UI, outside the app) and
 	 * coming back with the back button.
 	 */
-	@Test(description = "The notification shade opens and closes")
-	public void notificationShade() {
+	@Test(description = "[TC-132] The notification shade opens and closes")
+	public void tc132_notificationShade() {
 		new CatalogScreen();
 
 		driver().openNotifications();

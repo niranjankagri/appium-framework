@@ -94,8 +94,8 @@ public class AppiumScenariosTest extends BaseTest {
 	 * A multi-point drag on a canvas. The pad has no child elements to check,
 	 * so the proof is visual: element screenshots before and after differ.
 	 */
-	@Test(description = "A W3C drag draws on the signature pad")
-	public void drawWithAPointerAction() {
+	@Test(description = "[TC-127] A W3C drag draws on the signature pad")
+	public void tc127_drawWithAPointerAction() {
 		DrawingScreen pad = new CatalogScreen().header().openMenu().drawing();
 		byte[] empty = pad.padImage();
 
@@ -110,8 +110,8 @@ public class AppiumScenariosTest extends BaseTest {
 	 * What an element reports about itself: text, accessibility label, state
 	 * and position. getAttribute takes UiAutomator2's attribute names.
 	 */
-	@Test(description = "Element attributes: text, label, state and position")
-	public void elementAttributes() {
+	@Test(description = "[TC-128] Element attributes: text, label, state and position")
+	public void tc128_elementAttributes() {
 		new CatalogScreen().openProduct(TestData.BACKPACK);
 		WebElement button = driver().findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/cartBt"));
 
@@ -194,8 +194,8 @@ public class AppiumScenariosTest extends BaseTest {
 	 * The runtime permission dialog belongs to Android, not the app. Revoke the
 	 * permission, open a screen that needs it, accept the system dialog.
 	 */
-	@Test(description = "A revoked permission is asked for again and accepted")
-	public void runtimePermissionDialog() {
+	@Test(description = "[TC-129] A revoked permission is asked for again and accepted")
+	public void tc129_runtimePermissionDialog() {
 		new CatalogScreen();
 		String appPackage = "com.saucelabs.mydemoapp.android";
 		driver().executeScript("mobile: changePermissions", Map.of(
@@ -218,8 +218,8 @@ public class AppiumScenariosTest extends BaseTest {
 	 * a Chromedriver that matches the device's WebView, so this test only checks
 	 * that the context is offered and stays native.
 	 */
-	@Test(description = "A WebView screen offers a WEBVIEW context")
-	public void hybridScreenOffersAWebViewContext() {
+	@Test(description = "[TC-130] A WebView screen offers a WEBVIEW context")
+	public void tc130_hybridScreenOffersAWebViewContext() {
 		WebViewScreen web = new CatalogScreen().header().openMenu().webView().open("https://www.saucedemo.com");
 
 		Set<String> contexts = web.contexts();

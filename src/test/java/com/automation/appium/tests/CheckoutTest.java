@@ -22,8 +22,8 @@ import com.automation.appium.screens.ReviewScreen;
  */
 public class CheckoutTest extends BaseTest {
 
-	@Test(groups = { "smoke", "checkout" }, description = "A guest logs in during checkout and completes the order")
-	public void guestCompletesCheckout() {
+	@Test(groups = { "smoke", "checkout" }, description = "[TC-116] A guest logs in during checkout and completes the order")
+	public void tc116_guestCompletesCheckout() {
 		// One product in the cart; keep the cart total to check the order total later
 		CartScreen cart = new CatalogScreen().openProduct(TestData.BACKPACK).addToCart()
 				.header().openCart();
@@ -53,8 +53,8 @@ public class CheckoutTest extends BaseTest {
 		assertEquals(complete.continueShopping().header().cartCount(), 0, "cart badge after the order");
 	}
 
-	@Test(groups = "checkout", description = "The address form names every missing required field")
-	public void addressRequiresAllMandatoryFields() {
+	@Test(groups = "checkout", description = "[TC-117] The address form names every missing required field")
+	public void tc117_addressRequiresAllMandatoryFields() {
 		// Go through the checkout up to the empty address form
 		AddressScreen address = new CatalogScreen().openProduct(TestData.BACKPACK).addToCart()
 				.header().openCart()
@@ -75,8 +75,8 @@ public class CheckoutTest extends BaseTest {
 		assertTrue(errors.get(4).startsWith("Please provide your"), "country message: " + errors.get(4));
 	}
 
-	@Test(groups = "checkout", description = "The optional address fields can stay empty")
-	public void optionalAddressFieldsCanBeEmpty() {
+	@Test(groups = "checkout", description = "[TC-118] The optional address fields can stay empty")
+	public void tc118_optionalAddressFieldsCanBeEmpty() {
 		// Line 2 and state are optional; the test data leaves them empty on purpose
 		Address address = TestData.ADDRESS;
 		assertEquals(address.line2(), "");

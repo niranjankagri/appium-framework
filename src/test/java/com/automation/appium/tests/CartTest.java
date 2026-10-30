@@ -19,8 +19,8 @@ import com.automation.appium.screens.ProductScreen;
  */
 public class CartTest extends BaseTest {
 
-	@Test(groups = { "smoke", "cart" }, description = "Adding a product shows 1 on the cart badge and in the cart")
-	public void addOneProduct() {
+	@Test(groups = { "smoke", "cart" }, description = "[TC-112] Adding a product shows 1 on the cart badge and in the cart")
+	public void tc112_addOneProduct() {
 		// Open a product from the catalog and add it with the default quantity 1
 		ProductScreen product = new CatalogScreen().openProduct(TestData.BACKPACK).addToCart();
 
@@ -32,8 +32,8 @@ public class CartTest extends BaseTest {
 		assertEquals(cart.total(), product.price(), "cart total");
 	}
 
-	@Test(groups = "cart", description = "Quantity 3 adds three items and triples the total")
-	public void addSeveralOfOneProduct() {
+	@Test(groups = "cart", description = "[TC-113] Quantity 3 adds three items and triples the total")
+	public void tc113_addSeveralOfOneProduct() {
 		// Quantity starts at 1, so two taps on plus make 3
 		ProductScreen product = new CatalogScreen().openProduct(TestData.BACKPACK).increaseQuantity(2);
 		assertEquals(product.quantity(), 3, "quantity before adding");
@@ -50,8 +50,8 @@ public class CartTest extends BaseTest {
 		assertEquals(cart.total(), unitPrice.multiply(BigDecimal.valueOf(3)), "cart total");
 	}
 
-	@Test(groups = "cart", description = "Two different products both appear in the cart with the right total")
-	public void addTwoProducts() {
+	@Test(groups = "cart", description = "[TC-114] Two different products both appear in the cart with the right total")
+	public void tc114_addTwoProducts() {
 		// First product: add it and remember its price
 		CatalogScreen catalog = new CatalogScreen();
 		BigDecimal backpack = catalog.openProduct(TestData.BACKPACK).addToCart().price();
@@ -67,8 +67,8 @@ public class CartTest extends BaseTest {
 		assertEquals(cart.total(), backpack.add(yellow.price()), "cart total");
 	}
 
-	@Test(groups = "cart", description = "Removing the only item empties the cart")
-	public void removeItem() {
+	@Test(groups = "cart", description = "[TC-115] Removing the only item empties the cart")
+	public void tc115_removeItem() {
 		// Add one product, open the cart and tap Remove on its only line
 		CartScreen cart = new CatalogScreen().openProduct(TestData.BACKPACK).addToCart()
 				.header().openCart()

@@ -23,8 +23,8 @@ import com.automation.appium.screens.ProductScreen;
  */
 public class MobileTest extends BaseTest {
 
-	@Test(groups = "mobile", description = "The Android back button returns from a product to the catalog")
-	public void backButtonReturnsToCatalog() {
+	@Test(groups = "mobile", description = "[TC-119] The Android back button returns from a product to the catalog")
+	public void tc119_backButtonReturnsToCatalog() {
 		new CatalogScreen().openProduct(TestData.BACKPACK);
 
 		// The system back key, not a button inside the app
@@ -34,8 +34,8 @@ public class MobileTest extends BaseTest {
 		assertEquals(new CatalogScreen().title(), "Products");
 	}
 
-	@Test(groups = { "smoke", "mobile" }, description = "Screen and cart survive the app going to the background")
-	public void stateSurvivesBackground() {
+	@Test(groups = { "smoke", "mobile" }, description = "[TC-120] Screen and cart survive the app going to the background")
+	public void tc120_stateSurvivesBackground() {
 		// Leave the app in a state worth keeping: on a product, with one item in the cart
 		new CatalogScreen().openProduct(TestData.BACKPACK).addToCart();
 
@@ -48,8 +48,8 @@ public class MobileTest extends BaseTest {
 		assertEquals(product.header().cartCount(), 1, "cart badge");
 	}
 
-	@Test(groups = "mobile", description = "A cold start opens on the catalog")
-	public void coldStartOpensCatalog() {
+	@Test(groups = "mobile", description = "[TC-121] A cold start opens on the catalog")
+	public void tc121_coldStartOpensCatalog() {
 		// Move away from the start screen first, so the check below means something
 		new CatalogScreen().openProduct(TestData.BACKPACK);
 
@@ -60,8 +60,8 @@ public class MobileTest extends BaseTest {
 		assertEquals(new CatalogScreen().title(), "Products");
 	}
 
-	@Test(groups = "mobile", description = "The app stays in portrait: the main screen is locked to it")
-	public void screenStaysPortrait() {
+	@Test(groups = "mobile", description = "[TC-122] The app stays in portrait: the main screen is locked to it")
+	public void tc122_screenStaysPortrait() {
 		// Wait for the catalog before trying to rotate
 		new CatalogScreen();
 		Device device = new Device();
@@ -73,8 +73,8 @@ public class MobileTest extends BaseTest {
 		assertEquals(new CatalogScreen().title(), "Products");
 	}
 
-	@Test(groups = "mobile", description = "The keyboard opens for a text field and can be closed")
-	public void keyboardOpensAndCloses() {
+	@Test(groups = "mobile", description = "[TC-123] The keyboard opens for a text field and can be closed")
+	public void tc123_keyboardOpensAndCloses() {
 		// Tapping into the user name field opens the soft keyboard
 		LoginScreen login = new CatalogScreen().header().openMenu().logIn().focusUsername();
 		Device device = new Device();
