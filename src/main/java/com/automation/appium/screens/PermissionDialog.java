@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -47,22 +48,27 @@ public final class PermissionDialog {
 		return accepted;
 	}
 
-	// Accepts one dialog if it appears within the given time
+	// Accepts one dialog if it appears within the given time. Finding, reading and tapping
+	// the button are one step of the wait: the system can redraw the dialog just after it
+	// opens, which makes a found button stale, and the wait then simply finds it again
 	private static boolean allowOne(Duration appear) {
 		AndroidDriver driver = DriverManager.get();
 		try {
-			WebElement button = new WebDriverWait(driver, appear).until(d -> {
-				for (By locator : List.of(WHILE_USING, ALLOW)) {
-					List<WebElement> found = d.findElements(locator);
-					if (!found.isEmpty()) {
-						return found.get(0);
-					}
-				}
-				return null;
-			});
-			Steps.log("Allow the system permission dialog: \"" + button.getText() + "\"");
-			button.click();
-			return true;
+			return new WebDriverWait(driver, appear)
+					.ignoring(StaleElementReferenceException.class)
+					.until(d -> {
+						for (By locator : List.of(WHILE_USING, ALLOW)) {
+							List<WebElement> found = d.findElements(locator);
+							if (!found.isEmpty()) {
+								WebElement button = found.get(0);
+								String label = button.getText();
+								button.click();
+								Steps.log("Allow the system permission dialog: \"" + label + "\"");
+								return true;
+							}
+						}
+						return null;
+					});
 		} catch (TimeoutException e) {
 			// No dialog: the permission was already granted
 			return false;
